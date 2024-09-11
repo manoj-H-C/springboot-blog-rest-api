@@ -5,6 +5,10 @@ import com.springboot.blog.payload.PostDto;
 import com.springboot.blog.payload.PostResponse;
 import com.springboot.blog.service.PostService;
 import com.springboot.blog.utils.AppConstants;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +19,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/posts")
+@Tag(
+        name = "CRUD REST APIs for post resource"
+)
 public class PostController {
 
     private PostService postService;
@@ -24,6 +31,15 @@ public class PostController {
     }
 
     // create blog post rest api
+    @Operation(
+            summary = "Create Post Rest API",
+            description = "Create Post REST API is used to save post into database"
+    )
+    @ApiResponse(
+            responseCode = "201",
+            description = "Http status 201 created"
+    )
+    @SecurityRequirement(name = "Bearer Authentication")
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<PostDto> createPost(@Valid @RequestBody PostDto postDto) {
@@ -49,6 +65,15 @@ public class PostController {
     }
 
     // update post by id rest api
+    @Operation(
+            summary = "Update Put Rest API",
+            description = "Update Put REST API is used to update post into database"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http status 200 ok"
+    )
+    @SecurityRequirement(name = "Bearer Authentication")
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<PostDto> updatePost(@Valid @RequestBody PostDto postDto, @PathVariable(name = "id") long id) {
@@ -59,6 +84,15 @@ public class PostController {
     }
 
     // delete post rest api
+    @Operation(
+            summary = "Delete Rest API",
+            description = "Delete REST API is used to delete post into database"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http status 200 ok"
+    )
+    @SecurityRequirement(name = "Bearer Authentication")
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletePost(@PathVariable(name = "id") long id) {
