@@ -108,4 +108,9 @@ public class PostController {
         List<PostDto> postDtos = postService.getPostByCategory(categoryId);
         return ResponseEntity.ok(postDtos);
     }
+
+    @GetMapping("/search")
+    public List<PostDto> searchPosts(@RequestParam String title) {
+        return postService.searchPostsByTitle(title);
+    }
 }

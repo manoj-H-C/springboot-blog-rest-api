@@ -126,6 +126,14 @@ public class PostServiceImpl implements PostService {
 
     }
 
+    @Override
+    public List<PostDto> searchPostsByTitle(String title) {
+        List<Post> posts = postRepository.findByTitleContainingIgnoreCase(title);
+        return posts.stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
+    }
+
     // convert Entity into DTO
     private PostDto mapToDTO(Post post){
 //        using mapper to reduce code
